@@ -1,4 +1,6 @@
-
+$(window).load(function() {
+   $("#loading").fadeOut(500);
+}) 
 
 window.onload=function(){
 	var mask=document.getElementById("mask");
