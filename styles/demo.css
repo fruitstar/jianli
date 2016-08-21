@@ -382,6 +382,17 @@ padding-right:150px;
 	background:#fff;
 	color:#000;
 }
+.right a{
+	text-decoration:none;
+	display:block;
+	margin-top:30px;
+	color:#fff;
+	border:1px solid #fff;
+}
+.right a:hover{
+	background:#fff;
+	color:#000;
+}
 @-webkit-keyframes bounce {
   from, 20%, 53%, 80%, to {
     -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
