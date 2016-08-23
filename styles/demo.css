@@ -70,6 +70,16 @@ left:70%;
 	height:100%;
 	opacity:0.9;
 }
+
+.bounceInDown {
+    -webkit-animation-duration: 3s;
+    animation-duration: 3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  -webkit-animation-name: bounceInDown;
+  animation-name: bounceInDown;
+}
+@media screen and (min-width:1281px){
 #header h1{	
 	width:100%;
 	margin-left:auto;
@@ -78,7 +88,6 @@ left:70%;
 	color:white;
 	font-weight:bold;
 	font-size:100px;
-	z-index:1000;
 }
 #swing {
 	position:absolute;
@@ -96,21 +105,7 @@ left:70%;
     -webkit-animation-name: swing;
     animation-name: swing;
 }
-/*
-#bounce {
-	display:none;
-    -webkit-animation-duration: 3s;
-    animation-duration: 3s;
-	-webkit-animation-iteration-count: infinite;//动画播放次数
-    animation-iteration-count: infinite;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-    -webkit-animation-name: bounce;
-    animation-name: bounce;
-    -webkit-transform-origin: center bottom;
-    transform-origin: center bottom;
-}
-*/
+
 #bounceIn {
 	position:absolute;
 	height:200px;
@@ -128,13 +123,6 @@ left:70%;
   -webkit-animation-name: bounceIn;
   animation-name: bounceIn;
 }
-.bounceInDown {
-    -webkit-animation-duration: 3s;
-    animation-duration: 3s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-  -webkit-animation-name: bounceInDown;
-  animation-name: bounceInDown;
 }
 @media screen and (min-width:630px) and (max-width:1280px){
 #header h1{	
@@ -145,7 +133,7 @@ left:70%;
 	color:white;
 	font-weight:bold;
 	font-size:100px;
-	z-index:1000;
+	z-index:1003;
 }
 #swing {
 	position:absolute;
