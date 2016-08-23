@@ -236,6 +236,8 @@ left:70%;
 	color:#666;
 	margin-bottom:60px;
 }
+
+@media screen and (min-width:1281px){
 #main ul{
 	width:95%;
 	height:390px;
@@ -259,7 +261,10 @@ left:70%;
 	-o-transition: all 0.5s ease-in-out;
 	/* Opera */ 
 }
-@media screen and(min-width:1281px){
+#main ul li img{
+	width:295px;
+	overflow:hidden;
+}
 #main ul li:hover{
 	margin-top: -15px;
 	-webkit-box-shadow: 3px 3px 10px 5px #c7c7c7;
@@ -275,6 +280,10 @@ left:70%;
 }
 }
 @media screen and (min-width:630px) and (max-width:1280px){
+#main ul li img{
+	height:295px;
+	overflow:hidden;
+}
 #main ul{
 	width:700px;
 	height:850px;
@@ -309,6 +318,10 @@ left:70%;
 }
 }
 @media screen and (max-width:630px){
+#main ul li img{
+	height:284px;
+	overflow:hidden;
+}
 #main ul{
 	width:80%;
 	height:1600px;
