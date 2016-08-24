@@ -287,7 +287,7 @@ body{
 	overflow:hidden;
 }
 #main ul{
-	width:700px;
+	width:625px;
 	height:850px;
 	position:relative;
 	margin-left:auto;
@@ -295,14 +295,13 @@ body{
 	list-style: none;
 }
 
-#main ul li{
+#main ul li:nth-child(even){
 	display:block;
 	overflow:hidden;
 	cursor:pointer;
 	float:left;
 	width:295px;
 	height:396px;
-	margin-right:35px;
 	margin-top:0px;
 	margin-bottom:30px;
 	background-color:#fff;
@@ -314,7 +313,25 @@ body{
 	-o-transition: all 0.5s ease-in-out;
 	/* Opera */ 
 }
-
+#main ul li:nth-child(odd){
+	display:block;
+	overflow:hidden;
+	cursor:pointer;
+	float:left;
+	width:295px;
+	height:396px;
+	margin-top:0px;
+	margin-right:35px;
+	margin-bottom:30px;
+	background-color:#fff;
+	transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	/* Firefox 4 */
+	-webkit-transition: all 0.5s ease-in-out;
+	/* Safari and Chrome */
+	-o-transition: all 0.5s ease-in-out;
+	/* Opera */ 
+}
 #main ul li:hover{
 	-webkit-box-shadow: 3px 3px 10px 5px #c7c7c7;
 	-moz-box-shadow: 3px 3px 10px 5px #c7c7c7;
