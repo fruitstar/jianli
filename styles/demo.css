@@ -55,6 +55,28 @@ body{
 	color:#f47920;
 	border-bottom:2px solid #f47920;
 }
+.drop {
+  font-weight: 300;
+  text-transform: none;
+  display: none;
+  position: absolute;
+  width: 100px;
+  top:33px;
+
+}
+.drop li {
+  padding: 0;
+  color:#fff;
+  height:35px;
+  line-height:35px;
+  background: #f47920 !important;
+}
+#more:hover .drop{
+	display:block;
+}
+#more:hover .drop li a{
+	color:#fff;
+}
 #header{
 	height:600px;
 	width:100%;
