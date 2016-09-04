@@ -6,6 +6,7 @@
 body{
 	margin:0 auto;
 	width:100%;
+	background-color:#f4f4f4;
 }
 #navbar{
 	background:#fff;
@@ -510,7 +511,46 @@ body{
 	cursor:pointer;	
 	width:30px;
 }
-
+.container{
+	padding-top:70px;
+	padding-bottom:40px;
+}
+.progressbar-title{
+	font-size: 14px;
+	color: #666;
+	text-transform: capitalize;
+}
+.progress{
+	height: 5px;
+	overflow: visible;
+    background: #f0f0f0;
+	margin-bottom: 40px;
+}
+.progress .progress-bar{
+	position: relative;
+	animation: animate-positive 2s;
+}
+.progress .progress-icon{
+	width: 15px;
+	height: 15px;
+	line-height: 25px;
+	border-radius: 50%;
+	font-size: 13px;
+	position: absolute;
+	top: -5px;
+	right: 0;
+	background: #fff;
+	border-width: 3px;
+	border-style: solid;
+	text-align: center;
+}
+.progress-value{
+	font-size: 13px;
+	color: #D5D6E2;
+	position: absolute;
+	top: 16px;
+	right: 0;
+}
 #footer{
 	position:relative;
 	height:600px;
