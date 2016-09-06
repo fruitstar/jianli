@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.keleyi.com/1999/xhtml"> 
+<head> 
+<title>测试2</title> 
+<link rel="stylesheet" href="dist/bootstrap.min.css">
+<style type="text/css"> 
+h4{position:absolute;top:50%;left:20%;margin-top:-50px;}
+.paymentdate{position:absolute;top:50%;left:20%;margin-left:0px;}
+.dpercent{position:absolute;top:50%;left:20%;margin-top:30px;}
+.damount{position:absolute;top:50%;left:20%;margin-top:60px;}
+.percent{width:151px;text-align:right;position:absolute;top:50%;left:20%;margin-left:240px;margin-top:30px;}
+.amount{width:151px;text-align:right;position:absolute;top:50%;left:20%;margin-left:240px;margin-top:60px;}
+.flatpickr-input{text-align:right;border:none;position:absolute;top:50%;left:20%;margin-left:240px;}
+</style> 
+<link rel="stylesheet" href="dist/flatpickr.min.css">
+
+<script type="text/javascript"> 
+function fp_ready(){
+	document.getElementById("flatpickr-tryme").flatpickr();
+	}
+</script> 
+</head> 
+<body> 
+	<div>
+		<h4>Step 2:Select Early Payment Date<br>
+			<small>select different dates to see different discount rates.</small>
+		</h4>
+		<p class="paymentdate">Early Payment Date</p>
+		<p class="dpercent">Discount Percent</p>
+		<p class="percent">1.207%</p>
+		<p class="damount">Discount Amount</p>
+		<p class="amount">$842.65</p>
+		<input id="flatpickr-tryme" class=flatpickr data-inline=true data-date-format="m/d/Y" placeholder="Pick a date below">
+	</div>
+<script src="jquery-3.0.0.min.js"></script>
+<script src="dist/flatpickr.min.js"  onload="fp_ready()"></script>
+</body> 
+</html> 
