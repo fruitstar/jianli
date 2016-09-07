@@ -4,30 +4,7 @@
 <title>calendar</title> 
 <link rel="stylesheet" href="dist/bootstrap.min.css">
 <link rel="stylesheet" href="dist/flatpickr.min.css">
-<style type="text/css"> 
-*{font-family:"Verdana"}
-.wrap{display:block;width:400px;position:absolute;top:20%;left:50%;margin-left:-400px;overflow:inherit;}
-table{width:350px;margin-top:16px;;float:right}
-td{padding-bottom:8px;}
-td:nth-child(2){float:right}
-.flatpickr-calendar{display:block;left:50%;top:20%;margin-left:100px;}
-#flatpickr-tryme{border:none;text-align:right}
-@media screen and (max-width: 820px) {
-    .wrap{
-        width:300px;
-		left:50%;
-		margin-left:-200px;
-    }
-}
-</style> 
-<script src="jquery-3.0.0.min.js"></script>
-<script src="dist/flatpickr.min.js"></script>
-<script type="text/javascript"> 
-window.onload = function(){
-	document.getElementById("flatpickr-tryme").flatpickr();
-}
-$("#flatpickr-tryme").unbind("click");
-</script>
+<link rel="stylesheet" href="styles/calendar.css">  
 </head> 
 <body> 
 		<div class="wrap">
@@ -51,6 +28,13 @@ $("#flatpickr-tryme").unbind("click");
 				</tbody>
 			</table>
 		</div>
- 
+<script src="jquery-3.0.0.min.js"></script>
+<script src="dist/flatpickr.min.js"></script>
+<script type="text/javascript"> 
+window.onload = function(){
+	document.getElementById("flatpickr-tryme").flatpickr();
+}
+$("#flatpickr-tryme").unbind("click");
+</script>
 </body> 
 </html> 

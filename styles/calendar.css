@@ -1,0 +1,14 @@
+*{font-family:"Verdana"}
+.wrap{display:block;width:400px;position:absolute;top:20%;left:50%;margin-left:-400px;overflow:inherit;}
+table{width:350px;margin-top:16px;;float:right}
+td{padding-bottom:8px;}
+td:nth-child(2){float:right}
+.flatpickr-calendar{display:block;left:50%;top:20%;margin-left:100px;}
+#flatpickr-tryme{border:none;text-align:right}
+@media screen and (max-width: 820px) {
+    .wrap{
+        width:300px;
+		left:50%;
+		margin-left:-200px;
+    }
+}
