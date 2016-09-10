@@ -3,12 +3,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>王星-前端实习</title>
-<link rel="stylesheet" href="dist/bootstrap.min.css">
 <link rel="stylesheet" href="styles/demo.css" />
 <link rel="shortcut icon" href="images/ningmeng.ico" type="images/x-icon">
 <link rel="icon" href="images/ningmeng.ico" type="images/x-icon">
-<script src="scripts/jquery-1.8.3.min.js"></script>
+<link rel="stylesheet" href="dist/bootstrap.min.css">  
+<script src="scripts/jquery.min.js"></script>
 <script src="scripts/demo.js"></script>
+<script src="dist/bootstrap.min.js"></script>
+
 </head>
 <body>
 	<div class="wrap">
@@ -34,14 +36,21 @@
 					<a href="#footer">联系</a>
 				</li>
 				<li id="more">
-					<a href="#">More+</a>
-					<ul class="drop">
-						<li>
-							<a href="material.html">资料</a>
-						</li>
-						<li>jquery</li>
-						<li>html</li>
-					</ul>
+					<div class="dropdown">
+						<button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">More+
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="material.html">工具网站</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="project.html">项目展示</a>
+							</li>
+						</ul>
+					</div>
+					
+					
 				</li>
 			</ul>
 		</div> 
@@ -137,6 +146,6 @@
 			</div>
 		</div>
     </div>
-	
+
 </body>
 </html>

@@ -1,6 +1,6 @@
 $(window).load(function() {
    $("#loading").slideUp(1500);
-}) 
+});
 
 window.onload=function(){
 	var mask=document.getElementById("mask");
@@ -53,36 +53,4 @@ function hideBg() {
 $("#hide").slideToggle(); 
 $(".close").fadeOut(); 
 $("#mask").fadeOut(); 
-} 
-/*
-var bh = $("body").height(); 
-		var bw = $("body").width(); 
-		$("#mask").css({ 
-		height:bh, 
-		width:bw, 
-		});
-		$("#mask").fadeIn(); 
-		$("#hidebg div:eq(0)").slideToggle(); 
-function showBg() { 
-var bh = $("body").height(); 
-var bw = $("body").width(); 
-$("#mask").css({ 
-height:bh, 
-width:bw, 
-});
-$("#mask").fadeIn(); 
-$("#hide").slideToggle(); 
-} 
-//关闭灰色 jQuery 遮罩 
-function hideBg() { 
-$("#hide").slideToggle(); 
-$("#mask").fadeOut(); 
 }
-window.onload=function(){
-	var mask=document.getElementById("mask");
-	mask.onclick=function(){
-		hideBg();
-		return false;
-	}
-}
-*/
