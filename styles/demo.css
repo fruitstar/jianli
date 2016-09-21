@@ -250,6 +250,7 @@ body{
 	text-align:center;
 	height:auto;
 	width:100%;
+	padding-bottom:50px;
 	margin-left:auto;
 	margin-right:auto;
 	background-color:#F4F4F4;
@@ -528,7 +529,7 @@ body{
 	text-transform: capitalize;
 }
 .progress{
-	height: 5px;
+	height: 5px !important;
 	overflow: visible;
     background: #f0f0f0;
 	margin-bottom: 40px;
@@ -547,7 +548,7 @@ body{
 	top: -5px;
 	right: 0;
 	background: #fff;
-	border-width: 3px;
+	border-width: 0px;
 	border-style: solid;
 	text-align: center;
 }
