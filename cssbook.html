@@ -163,24 +163,24 @@
     var next = document.querySelector("#next");
     var page = document.querySelectorAll(".page");
     function rotate(){
-      var middle = 0;
+      var j = 0;
       for(var i = 0;i<page.length;i++){
         page[i].style.zIndex = page.length-i;
       }
       next.onclick = function (){
-        if(middle != page.length){
-          page[middle].style.animation = "next 1.5s linear 1 forwards";
-          middle++;
+        if(j != page.length){
+          page[j].style.animation = "next 1.5s linear 1 forwards";
+          j++;
         }else{
-          middle = page.length;
+          j = page.length;
         }
       };
       prev.onclick = function (){
-        if(middle != 0){
-          page[middle-1].style.animation = "prev 1.5s linear 1 forwards";
-          middle--;
+        if(j != 0){
+          page[j-1].style.animation = "prev 1.5s linear 1 forwards";
+          j--;
         }else{
-          middle = 0;
+          j = 0;
         }
       };
     }
