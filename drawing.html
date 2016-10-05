@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 canvas 画板</title>
+	<link rel="stylesheet" type="text/css" href="./styles/drawing.css">
+</head>
+<body>
+	<div class="wrap">
+		<h1>canvas 画板</h1>
+		<div class="container">
+			<canvas id="drawing" width="800" height="375"></canvas>
+			<div class="pen">
+				<img src="./images/pencil.png" onclick="linewidth = 1;">
+				<img src="./images/Marker.png" onclick="linewidth = 7;">
+				<img src="./images/Eraser.png" onclick="linewidth = 5;linecolor = '#fff';">
+				<ul>
+					<li style="background-color: #000" onclick="linecolor = '#000';"></li>
+					<li style="background-color: #999d9c" onclick="linecolor = '#999d9c';"></li>
+					<li style="background-color: #94d6da" onclick="linecolor = '#94d6da';"></li>
+					<li style="background-color:#00a6ac" onclick="linecolor = '#00a6ac';"></li>
+					<li style="background-color: #f15a22" onclick="linecolor = '#f15a22'"></li>
+					<li style="background-color: #f32f15" onclick="linecolor = '#f32f15';"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var drawing = document.getElementById("drawing");
+		var linecolor = '#000';
+		var linewidth = 5;
+		var flag = false;
+		if(drawing.getContext){
+			var context = drawing.getContext("2d");
+			drawing.onmousedown = function(e){
+				flag = true;
+				context.beginPath();
+				context.moveTo(e.pageX-drawing.offsetLeft,e.pageY-drawing.offsetTop);
+			}
+			drawing.onmousemove = function(e){
+				if(flag == true){	
+					context.lineTo(e.pageX-drawing.offsetLeft,e.pageY-drawing.offsetTop);
+					context.lineWidth = linewidth;
+					context.lineCap = "round";
+					context.strokeStyle = linecolor;
+					context.stroke();
+				}
+			}
+			drawing.onmouseup = function(e){
+				flag = false;
+			}
+		}
+	</script>
+</body>
+</html>

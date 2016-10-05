@@ -6,14 +6,13 @@
 	background-color:#f4f4f4;
 	padding-bottom:100px;
 }
-.header{
-}
 .contain{
 	width: 100%;
 	min-height: 100%;
 	position: absolute;
 	background: url("../images/hero-bg.jpg");
 	background-size: cover;
+	background-position: fixed;
 }
 .mark{
 	background: rgba(82,82,99,0.5);
