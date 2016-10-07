@@ -30,7 +30,6 @@
             context.beginPath();
             context.arc(centerX,centerY,100,-Math.PI/2,-Math.PI/2 + n*rad,false);
             context.stroke();
-            context.closePath();
             context.restore();
         }
         function text(n){
@@ -40,7 +39,6 @@
             context.textAlign = "center";
             context.textBaseline = "middle";
             context.strokeText(n.toFixed(0) + "%",centerX,centerY);
-            context.stroke();
             context.restore();
         }
         (function drawFrame(){
@@ -54,9 +52,6 @@
             }
                 speed += 0.1;
         }());
-    whiteCircle();
-    blueCircle(50);
-    text(50);
     }
 </script>
 </body>
