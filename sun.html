@@ -39,17 +39,18 @@
       var context = canvas.getContext('2d');
 
       function Star(x,y,radius,cycle,picture){
-      //星球各个属性
+      //构造Star函数（x位置，y位置，半径，公转周期，图片）{}
         this.x = x;
         this.y = y;
         this.radius = radius;
-        this.cycle = cycle;//公转周期
+        this.cycle = cycle;
         this.picture = picture;
-        this.time = 0;
+        this.time = 0;//定时
         this.draw = function(){
           context.save();
           context.translate(canvas.width/2,canvas.height/2);
           context.rotate(this.time*(360/this.cycle)*Math.PI/180);
+          //360°除以多少天得一天转多少度
          context.drawImage(this.picture,this.x-radius/2,this.y-radius/2,radius,radius);
           context.fill();
           context.restore();
