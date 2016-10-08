@@ -168,7 +168,8 @@ header p{
 	padding-bottom: 30px;
 }
 .level-container .col-md-4 .material-icons{
-	font-size: 25em;
+	width: 100%;
+	font-size: 21em;
 	color:#000;
 }
 .level-container .row .col-md-3{
