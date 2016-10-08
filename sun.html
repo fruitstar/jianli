@@ -37,12 +37,13 @@
       var neptunepic = document.getElementById('neptune');
       var canvas = document.getElementById('canvas');
       var context = canvas.getContext('2d');
+
       function Star(x,y,radius,cycle,picture){
       //星球各个属性
         this.x = x;
         this.y = y;
         this.radius = radius;
-        this.cycle = cycle;
+        this.cycle = cycle;//公转周期
         this.picture = picture;
         this.time = 0;
         this.draw = function(){
@@ -61,37 +62,37 @@
       //水星
       function Mercury()
       {
-        Star.call(this,0,-40,20,87.70,mercurypic);
+        Star.call(this,0,-40,20,87,mercurypic);
       }
       //金星
       function Venus()
       {
-        Star.call(this,0,-80,24,224.701,venuspic);
+        Star.call(this,0,-80,24,224,venuspic);
       }
       //地球
       function Earth()
       {
-        Star.call(this,0,-120,26,365.2422,earthpic);
+        Star.call(this,0,-120,26,365,earthpic);
       }
       //火星
       function Mars()
       {
-        Star.call(this,0,-160,22,686.98,marspic);
+        Star.call(this,0,-160,22,686,marspic);
       }
       //木星
       function Jupiter()
       {
-        Star.call(this,0,-200,32,4332.589,jupiterpic);
+        Star.call(this,0,-200,32,4332,jupiterpic);
       }
       //土星
       function Saturn()
       {
-        Star.call(this,0,-240,30,10759.5,saturnpic);
+        Star.call(this,0,-240,30,10759,saturnpic);
       }
       //天王星
       function Uranus()
       {
-        Star.call(this,0,-280,29,30799.095,uranuspic);
+        Star.call(this,0,-280,29,30799,uranuspic);
       }
       //海王星
       function Neptune()
