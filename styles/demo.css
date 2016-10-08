@@ -58,9 +58,11 @@ header{
 	background: #fff url("../images/person.jpg");
 	background-size: 160px;
 	background-repeat: no-repeat;
-	background-position: 20px 0px;
-	margin: 50px auto;
+	background-position: 20px -10px;
+	margin: 30px auto;
 	border-radius: 50%;
+	overflow: hidden;
+	border: 5px solid rgba(0,0,0,0.5);
 }
 .text-container{
 	color:#fff;
