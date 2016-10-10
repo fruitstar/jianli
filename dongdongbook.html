@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>咚咚图书</title>
+	<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			background-image: url("images/bg.jpg");
+			/*background-size: cover;*/
+		}
+		.navbar-header .navbar-brand{
+			font-size: 1.8em;
+			color: #f05b72;
+		}
+		.content{
+			margin-top: 40px;
+		}
+		.find-container{
+			margin-top: 30px;
+		}
+		.find-text{
+			margin-top: 30px;
+			margin-bottom: 30px;
+		}
+		.find-text .col-md-6 span{
+			display: block;
+			font-size: 2em;
+			text-align: center;
+			margin-top: 10px;
+			margin-bottom: 30px;
+			color: #00ae9d;
+		}
+	</style>
+	<!-- <script type="text/javascript" src="scripts/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script> -->
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a href="dongdongbook.html" class="navbar-brand">咚咚图书</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a>欢迎您，亲爱的咚咚图书用户</a></li>
+					<li>
+						<a href="registerbook.html"><span class="glyphicon glyphicon-user"></span>注册</a>
+					</li>
+					<li>
+						<a href="loginbook.html"><span class="glyphicon glyphicon-log-in"></span>登录</a>
+					</li>
+					<li>
+						<a href="infobook.html"><span class="	glyphicon glyphicon-heart-empty"></span>我的咚咚</a>
+					</li>
+					<li>
+						<a href="cartbook.html"><span class="	glyphicon glyphicon-shopping-cart"></span>我的购物车</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<div class="content">
+		<div id="find">
+			<div class="container">
+				<div class="find-title">
+					<ul class="nav nav-tabs nav-justified">
+						<li class="active"><a>首页</a></li>
+						<li><a href="childrenbook.html">童书</a></li>
+						<li><a href="novelbook.html">小说</a></li>
+						<li><a href="historybook.html">历史</a></li>
+					</ul>
+				</div>
+				<div class="find-container">
+					<form class="bs-example">
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<div class="input-group">
+									<input type="text" class="form-control">
+									<span class="input-group-btn"><button  class="btn btn-info" type="button">搜索</button></span>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="find-text">
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<span class="glyphicon glyphicon-bookmark">周一推荐</span>
+								<h5>书是个好伙伴。它满腹经纶，却不喋喋不休。 在你渴望时,它前来给予详细指教， 但是从不纠缠不休。－－－比切 </h5>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="showbook">
+					<div class="row">
+						<div class="col-sm-6 col-md-3">
+							<div class="thumbnail">
+								<img src="images/book1.jpg" alt="缩略图">
+								<div class="caption">
+									<h3>书名</h3>
+									<p>简介</p>
+									<button id="addcart" class="btn btn-primary" role="button">加入购物车</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div class="thumbnail">
+								<img src="images/book1.jpg" alt="缩略图">
+								<div class="caption">
+									<h3>书名</h3>
+									<p>简介</p>
+									<button id="addcart" class="btn btn-primary" role="button">加入购物车</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div class="thumbnail">
+								<img src="images/book1.jpg" alt="缩略图">
+								<div class="caption">
+									<h3>书名</h3>
+									<p>简介</p>
+									<button id="addcart" class="btn btn-primary" role="button">加入购物车</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div class="thumbnail">
+								<img src="images/book1.jpg" alt="缩略图">
+								<div class="caption">
+									<h3>书名</h3>
+									<p>简介</p>
+									<button id="addcart" class="btn btn-primary" role="button">加入购物车</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div class="thumbnail">
+								<img src="images/book1.jpg" alt="缩略图">
+								<div class="caption">
+									<h3>书名</h3>
+									<p>简介</p>
+									<button id="addcart" class="btn btn-primary" role="button">加入购物车</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div class="thumbnail">
+								<img src="images/book1.jpg" alt="缩略图">
+								<div class="caption">
+									<h3>书名</h3>
+									<p>简介</p>
+									<button id="addcart" class="btn btn-primary" role="button">加入购物车</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div class="thumbnail">
+								<img src="images/book1.jpg" alt="缩略图">
+								<div class="caption">
+									<h3>书名</h3>
+									<p>简介</p>
+									<button id="addcart" class="btn btn-primary" role="button">加入购物车</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div class="thumbnail">
+								<img src="images/book1.jpg" alt="缩略图">
+								<div class="caption">
+									<h3>书名</h3>
+									<p>简介</p>
+									<button id="addcart" class="btn btn-primary" role="button">加入购物车</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div class="thumbnail">
+								<img src="images/book1.jpg" alt="缩略图">
+								<div class="caption">
+									<h3>书名</h3>
+									<p>简介</p>
+									<button id="addcart" class="btn btn-primary" role="button">加入购物车</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div class="thumbnail">
+								<img src="images/book1.jpg" alt="缩略图">
+								<div class="caption">
+									<h3>书名</h3>
+									<p>简介</p>
+									<button id="addcart" class="btn btn-primary" role="button">加入购物车</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div class="thumbnail">
+								<img src="images/book1.jpg" alt="缩略图">
+								<div class="caption">
+									<h3>书名</h3>
+									<p>简介</p>
+									<button id="addcart" class="btn btn-primary" role="button">加入购物车</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div class="thumbnail">
+								<img src="images/book1.jpg" alt="缩略图">
+								<div class="caption">
+									<h3>书名</h3>
+									<p>简介</p>
+									<button id="addcart" class="btn btn-primary" role="button">加入购物车</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			var addcart = document.getElementsByClassName('btn');
+			//alert(addcart.length);
+			for (var i = 1;i < addcart.length;i++) {
+				addcart[i].onclick = function(){
+				alert("加入购物车成功！");
+			}
+			}
+			
+		}
+	</script>
+</body>
+</html>

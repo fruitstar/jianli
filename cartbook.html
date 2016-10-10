@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>我的购物车</title>
+	<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<style type="text/css">
+		*{
+			margin: 0 auto;
+			padding:0;
+		}
+		body{
+			background-image: url("images/bg.jpg");
+			background-size: cover;
+		}
+		.navbar-header .navbar-brand{
+			font-size: 1.8em;
+			color: #f05b72;
+		}
+		.panel{
+			margin-top: 50px;
+			box-shadow: 3px 3px 5px #ccc;
+		}
+		.form-control{
+			width: 200px;
+			margin-right: 0px;
+		}
+		#ul{
+			padding-left: 30px;
+			padding-right: 30px;
+			list-style: none;
+		}
+		#ul li{
+			height: 50px;
+			line-height: 50px;
+			border-bottom: 1px dashed #ccc;
+		}
+		.delete-btn{
+			cursor: pointer;
+			float: right;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a href="dongdongbook.html" class="navbar-brand">咚咚图书</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a>欢迎您，亲爱的咚咚图书用户</a></li>
+					<li>
+						<a href="loginbook.html"><span class="glyphicon glyphicon-log-in"></span>登录</a>
+					</li>
+					<li>
+						<a href="infobook.html"><span class="	glyphicon glyphicon-heart-empty"></span>我的咚咚</a>
+					</li>
+					<li>
+						<a href="cartbook.html"><span class="	glyphicon glyphicon-shopping-cart"></span>我的购物车</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<div class="content">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="panel panel-default">
+				<div class="panel-heading">我的购物车</div>
+				<div class="panel-body">
+					<div class="input-group">
+						<input type="text" class="form-control" id="txt" placeholder="添加图书的编号">
+					    <span class="input-group-btn"><button id="btn" class="btn btn-primary">添加</button></span>
+					</div>
+						
+				    <ul id="ul">
+				        <li>
+				            book1
+				            <a class="delete-btn">删除</a>
+				        </li>
+				        <li>
+				            book2
+				            <a class="delete-btn">删除</a>
+				        </li>
+				    </ul>
+				</div>
+			</div>
+			<a href="dongdongbook.html" class="btn btn-info btn-lg" style="margin-top: 30px;margin-left: 250px;">
+          		<span class="glyphicon glyphicon-share-alt"></span>返回首页
+        	</a>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+		    var list = document.getElementById("ul");
+		    var lis = list.children;
+		    var btn = document.getElementById("btn");
+		    var txt = document.getElementById("txt");
+		    
+		    btn.onclick = function (){
+		        if (txt.value == '') {
+		            alert('请输入图书编号！');
+		            return;
+		        }
+		        var li = document.createElement("li");
+		        li.innerHTML = txt.value + '<a class="delete-btn">删除</a>';
+		        list.appendChild(li);
+		        txt.value = '';
+		    }
+		    list.onclick = function(e){
+		        e = e||window.event;
+		        var el = e.srcElement;
+		        if(el.className == 'delete-btn'){
+		            el.parentNode.parentNode.removeChild(el.parentNode);
+		        }
+		    }
+		}
+	</script>
+</body>
+</html>

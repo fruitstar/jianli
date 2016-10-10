@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登录</title>
+<link rel="stylesheet" type="text/css" href="Login.css" />
+<script src="jquery-2.0.0.min.js"></script>
+</head>
+
+<body>
+	<div class="wrap">
+    	<div class="header">
+        	<div class="logo"><img src="header_1.jpg" >新博物</div>
+            <div class="nav">
+            	<ul>
+                	<li><a href="welcome.html">首页</a></li>
+                    <li><a href="#">项目介绍</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="Login.html">管理员</a></li>
+                 </ul>
+            </div>
+        </div>
+        <div class="main">
+            <div class="picture">
+            	<img src="map.jpg" />
+            </div>
+            	<div class="black">
+                	<div class="info">
+                        <div><label>用户名:</label>
+                        <input type="text" placeholder="请输入用户名" id="name" /></div><br />
+                        <div><label>密&nbsp;码:</label> 
+                        <input type="password" id="passwd" placeholder="请输入密码" /></div>
+                    	<div class="sub"><input type="button" id="submit" value="登    录"></div>
+                       
+                    </div>
+                </div>			 
+        </div>
+        <div class="footer">
+            <div class="footer-bottom">
+            	<div class="fb-left">@2016新博物</div>
+                <div class="back-to-top">Back to top</div>
+            </div>
+        </div>
+    </div>
+
+<script>
+$("#submit").click(function(){ 
+  var name=$("#name").val(); 
+  var password=$("#passwd").val();
+  var url="../index.php?login=1&name="+name+"&password="+password;
+ //  $.get(url,function(d,e){
+	// alert(d.msg);
+	// if(d.status==1){
+	// 	location.href="admin.html";
+ //        }
+ //  });
+ //alert(password);
+    if(name == 'admin' && password == '123456'){
+        location.href="admin.html";
+    }
+});
+ 
+</script>
+</body>
+</html>

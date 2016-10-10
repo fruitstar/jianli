@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>管理员</title>
+<link rel="stylesheet" type="text/css" href="admin.css" />
+<script type="text/javascript"></script>
+<script src="jquery-2.0.0.min.js"></script>
+</head>
+
+<body>
+	<div class="wrap">
+    	<div class="header">
+        	<div class="logo"><img src="header_1.jpg" >新博物</div>
+            <div class="nav">
+            	<ul>
+                	<li><a href="welcome.html">首页</a></li>
+                    <li><a href="#">项目介绍</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="Login.html">管理员</a></li>
+                 </ul>
+            </div>
+        </div>
+        <div class="main">
+            <div class="picture">
+            	<img src="map.jpg" />
+            </div>
+            <div id="data">
+            	<div class="block" id="temp">温度：</div>
+                <div class="block" id="hum">湿度：</div>
+                <div class="block" id="light">烟雾：</div>
+
+                <div id="left">应急灯</div>
+                <div id="center">加湿器</div>
+                <div id="reset">重置</div>
+
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-bottom">
+            	<div class="fb-left">@2016新博物</div>
+                <div class="back-to-top">Back to top</div>
+            </div>
+        </div>
+    </div>
+<script>
+var m,l;
+setInterval(function(){
+
+$.get("../index.php?load=1",function(d,e){
+
+
+$("#temp").html(d.temp);
+$("#hum").html(d.hum);
+$("#light").html(d.light);
+m=d.motor;
+l=d.pwm;
+  
+
+
+console.log(d);
+});
+
+
+},1000); 
+
+
+$("#reset").click(function(){
+$.get("../index.php?ps=0&ms=0",function(d,e){ location.reload(); });
+});
+ 
+//$.get("../index.php?ps=0&ms=0",function(d,e){  });
+ 
+ 
+$("#left").click(function(){
+$.get("../index.php?ps=1",function(d,e){
+	document.getElementById("left").style.backgroundColor = "#00CED1";
+});
+});
+ 
+
+$("#center").click(function(){
+$.get("../index.php?ms=1",function(d,e){ 
+	document.getElementById("center").style.backgroundColor = "#00CED1";
+});
+});
+
+$("#right").click(function(){
+$.get("../index.php?sm=1"||"../index.php?sha=1",function(d,e){  
+	document.getElementById("right").style.backgroundColor = "#2f3038";
+});
+}); 
+</script>
+</body>
+</html>

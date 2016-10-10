@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>我的咚咚</title>
+	<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<style type="text/css">
+		*{
+			margin: 0 auto;
+			padding:0;
+		}
+		body{
+			background-image: url("images/bg.jpg");
+			background-size: cover;
+		}
+		.navbar-header .navbar-brand{
+			font-size: 1.8em;
+			color: #f05b72;
+		}
+		.col-md-6{
+			margin-top: 70px;
+		}
+		.panel{
+			box-shadow: 3px 3px 5px #ccc;
+		}
+		.list-group-item a{
+			float: right;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a href="dongdongbook.html" class="navbar-brand">咚咚图书</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a>欢迎您，亲爱的咚咚图书用户</a></li>
+					<li>
+						<a href="loginbook.html"><span class="glyphicon glyphicon-log-in"></span>登录</a>
+					</li>
+					<li>
+						<a href="cartbook.html"><span class="	glyphicon glyphicon-shopping-cart"></span>我的购物车</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<div class="col-md-6 col-md-offset-3">
+		<div class="panel panel-default">
+			<div class="panel-heading">我的咚咚信息</div>
+			<ul class="list-group" id="list">
+				<li class="list-group-item">用户名：<span>王咚咚</span><a>修改</a></li>
+				<li class="list-group-item">密码：<span>123456</span><a>修改</a></li>
+				<li class="list-group-item">电话：<span>18810585766</span><a>修改</a></li>
+				<li class="list-group-item">地址：<span>北京市</span><a>修改</a></li>
+			</ul>
+			<div id="edit" style="display: none;">
+				<input type="text" id="text" value="请输入修改内容">
+				<button id="ok">确定</button>
+			</div>
+		</div>
+		<a href="dongdongbook.html" class="btn btn-info btn-lg" style="margin-top: 30px;margin-left: 250px;">
+          		<span class="glyphicon glyphicon-share-alt"></span>返回首页
+        	</a>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			var lis = document.getElementById('list').getElementsByTagName('li');
+			var text = document.getElementById('text');
+			var ok = document.getElementById('ok');
+			var edit = document.getElementById('edit');
+			var flag;
+			for (var i = 0; i < lis.length; i++) {
+				lis[i].lastChild.onclick = function(){
+					//alert(this.parentNode.children[0]);
+					flag = this.parentNode.children[0];
+					text.value = flag.innerHTML;
+					edit.style.display = "block";
+				}
+			}
+			ok.onclick = function(){
+				if (text.value == '') {
+					alert("请输入修改内容！");
+					return;
+				}
+				flag.innerHTML = text.value;
+				edit.style.display = "none";
+			}
+		}
+	</script>
+</body>
+</html>
