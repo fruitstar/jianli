@@ -147,10 +147,17 @@ header p{
 	border-top: 1px solid #e9eaec;
 	border-left: 1px solid #e9eaec;
 }
-.col-md-6:nth-of-type(5	){
+.col-md-6:nth-of-type(5){
 	border-top: 1px solid #e9eaec;
 }
 .col-md-6:nth-of-type(6){
+	border-top: 1px solid #e9eaec;
+	border-left: 1px solid #e9eaec;
+}
+.col-md-6:nth-of-type(7){
+	border-top: 1px solid #e9eaec;
+}
+.col-md-6:nth-of-type(8){
 	border-top: 1px solid #e9eaec;
 	border-left: 1px solid #e9eaec;
 }
