@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>项目介绍</title>
+	<link rel="stylesheet" type="text/css" href="../styles/jquery.fullPage.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<style type="text/css">
+		h1{
+			text-align: center;
+			font-size: 3em;
+			font-family: arial,helvetica;
+			color: #fff;
+			font-weight: bold;
+		}
+		h2{
+			text-align: center;
+			font-size: 2em;
+			font-family: arial,helvetica;
+			color: #fff;
+			font-weight: bold;
+		}
+		.container{
+			padding-left: 150px;
+			padding-right: 150px;
+		}
+		.material-icons{
+			font-size: 8em;
+			width: 100%;
+			text-align: center;
+			color: #fff;
+		}
+		img{
+			padding-left: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="fullpage">
+		<div class="section">
+			<div class="container">
+				<i class="material-icons">content_paste</i>
+				<h1>&nbsp;&nbsp;&nbsp;&nbsp;新博物是基于物联网开发的智能文物保护系统，普通游客可以查询各个地区的博物馆最新信息，向游客推荐有趣的博物馆，增加游客参观博物馆的兴趣，让游客了解我国博大精深不同时代的不同文化。同时也向游客展现新时代的文物的另一种展现形式。</h1>
+			</div>
+		</div>
+		<div class="section">
+			<div class="container">
+				<i class="material-icons">build</i>
+				<h1>&nbsp;&nbsp;&nbsp;&nbsp;新博物的管理员功能是这次项目的主要内容。管理员不能注册，只能登陆，这样保证了博物馆内部信息的安全性，管理员的用户名和密码直接存在数据库中，从数据库中添加或者删除。管理员登陆后可以通过网页端实时查看博物馆内部放置的传感器获得的温度，湿度，烟雾浓度等。若温度达到一定温度，预测可能已经发生火灾时发出警报，保证管理员可以迅速采取应急措施，保证游客人身安全，文物的完好性。</h1>
+			</div>
+		</div>
+		<div class="section">
+			<div class="slide">
+				<div class="container">
+					<img src="welcome.png">
+				</div>
+			</div>
+			<div class="slide">
+				<div class="container">
+					<img src="museumproject.png">
+				</div>
+			</div>
+			<div class="slide">
+				<div class="container">
+					<img src="login.png">
+				</div>
+			</div>
+			<div class="slide">
+				<div class="container">
+					<img src="admin.png">
+				</div>
+			</div>
+		</div>
+		<div class="section">
+			<div class="container">
+				<i class="material-icons">account_box</i>
+				<h2>王星</h2>
+				<h2>本人负责的是UI设计、web前端代码的实现。</h2>
+				<h2>王雪</h2>
+				<h2>负责的是数据库设计、与前端交互。</h2>
+				<h2>周猛猛、张琛</h2>
+				<h2>负责的是控制面板的实现。</h2>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="../scripts/jquery.min.js"></script>
+	<script type="text/javascript" src="../scripts/jquery.fullPage.js"></script>
+	<script type="text/javascript" src="../scripts/jquery.easings.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#fullpage').fullpage({
+				sectionsColor: ['#8FB98B', '#DE564B', '#EAE1C0','#77ac98'],
+				navigation:true,
+				navigationColor:'#ccddff',
+				//navigationPosition:'left',
+				navigationTooltips:['游客功能','管理员功能','项目截图展示','组员介绍'],
+				anchors: ['firstPage', 'secondPage', '3rdPage', '4thpage'],
+				easingcss3: 'cubic-bezier(0.175, 0.885, 0.320, 1.275)',
+				controlArrowColor:'#EAE1C0',
+				slidesNavigation: true,
+			});
+		});
+	</script>
+</body>
+</html>

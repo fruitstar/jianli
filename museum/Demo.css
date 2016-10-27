@@ -44,7 +44,7 @@
 .middle-left h2{font-size:49px;}
 .middle-left h1{font-size:157px;}
 .middle-left p{font-size:21px;}
-.middle-right{float:right;width:33.3%;margin-top:80px;height:412px;background-image:url("point.png");background-repeat:no-repeat;background-position:center 300px;}
+.middle-right{float:right;width:33.3%;margin-top:80px;height:412px;background-repeat:no-repeat;background-position:center 300px;}
 .middle-right h3{font-size:30px;margin-bottom:10px;}
 .middle-right span{color:#e74f4d;}
 .middle-right p{font-size:12px;font-family:"宋体";color:#aaa;text-align:left;padding-left:69px;padding-right:69px;line-height:32px;margin-bottom:47px;}
