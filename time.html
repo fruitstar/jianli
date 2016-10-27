@@ -4,15 +4,15 @@
 	<meta charset="UTF-8">
 	<title>炫酷时间</title>
 </head>
-<body>
-	<canvas id="canvas" style="border:1px solid #aaa;display: block;margin: 50px auto"></canvas>
+<body style="height: 100%">
+	<canvas id="canvas" style="height: 100%"></canvas>
 	<script type="text/javascript" src="scripts/digit.js"></script>
 	<script type="text/javascript">
-	var WINDOW_WIDTH = 1024;
-	var WINDOW_HEIGHT = 468;
-	var RADIUS = 8;
-	var MARGIN_TOP = 60;
-	var MARGIN_LEFT = 30; 
+	var WINDOW_WIDTH = document.documentElement.clientWidth-20;
+	var WINDOW_HEIGHT = document.documentElement.clientHeight-20;
+	var RADIUS = Math.round(WINDOW_WIDTH*4/5/108)-1;
+	var MARGIN_TOP = Math.round(WINDOW_HEIGHT/5);
+	var MARGIN_LEFT = Math.round(WINDOW_WIDTH/10); 
 	var balls = [];
 	var curTime = new Date();
 	const colors = ["#33B5E5","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
@@ -63,6 +63,11 @@
 				}
 				if (parseInt(seconds%10) != parseInt(nextseconds%10)) {
 					addBalls(MARGIN_LEFT+93*(RADIUS+1),MARGIN_TOP,parseInt(seconds%10));
+				}
+				var cnt = 0;
+				while(balls.length > 400){
+					balls.splice(cnt,1);
+					cnt++;
 				}
 			}
 			console.log(balls.length);
