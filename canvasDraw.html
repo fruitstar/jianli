@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas</title>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<script type="text/javascript">
+		window.onload = function(){
+			var canvas = document.getElementById('canvas');
+			canvas.width = 1200;
+			canvas.height = 800;
+			var context = canvas.getContext('2d');
+			// var linearGrad = context.createLinearGradient(0,0,0,canvas.height);
+			// linearGrad.addColorStop(0.0,"#000");
+			// linearGrad.addColorStop(1.0,"#035");//线性渐变
+			var radialGrad = context.createRadialGradient(canvas.width/2,canvas.height,0,canvas.width/2,canvas.height,canvas.width/2);
+			radialGrad.addColorStop(0.0,"#035");
+			radialGrad.addColorStop(1.0,"#000");
+			//context.fillStyle = linearGrad;
+			context.fillStyle = radialGrad;
+			context.fillRect(0,0,canvas.width,canvas.height);
+			for (var i = 0; i < 200; i++) {
+				var r = Math.random()*10;//10-20
+				var x= Math.random()*canvas.width;
+				var y = Math.random()*canvas.height*0.65;
+				var a = Math.random()*360;
+				drawStar(context,r,r/2.0,x,y,a);
+			}
+			//drawRoundRect(context,100,100,300,300,50);
+			fillMoon(context,2,900,200,100,30);
+			drawLand(context);
+			context.font = "bold 40px Arial";
+			context.fillStyle = "#fff";
+			context.fillText("星空",200,400);
+			context.lineWidth = 1;
+			context.strokeStyle = "#f58";
+			context.strokeText("第二个星空",200,450);
+
+		}
+		function drawLand(cxt){
+			cxt.save();
+			cxt.beginPath();
+			cxt.moveTo(0,600);
+			cxt.bezierCurveTo(540,400,660,800,1200,600);
+			cxt.lineTo(1200,800);
+			cxt.lineTo(0,800);
+			cxt.closePath();
+			var landStyle = cxt.createLinearGradient(0,800,0,0);
+			landStyle.addColorStop(0.0,"#030");
+			landStyle.addColorStop(1.0,"#580");
+			cxt.fillStyle = landStyle;
+			cxt.fill();
+			cxt.restore();
+		}
+		//月亮
+		function fillMoon(cxt,d,x,y,R,rot,fillColor){
+			cxt.save();
+			cxt.translate(x,y);
+			cxt.rotate(rot*Math.PI/180);
+			cxt.scale(R,R);
+			pathMoon(cxt,d);
+			cxt.fillStyle = fillColor||"#fb5";
+			cxt.fill();
+			cxt.restore();
+		}
+		function pathMoon(cxt,d){
+			cxt.beginPath();
+			cxt.arc(0,0,1,0.5*Math.PI,1.5*Math.PI,true);
+			cxt.moveTo(0,-1);
+			cxt.arcTo(d,0,0,1,dis(0,-1,d,0)/d);
+			cxt.closePath();
+		}
+		function dis(x1,y1,x2,y2){
+			return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+		}
+		//行星
+		function drawStar(cxt,R,r,x,y,rot){
+			cxt.beginPath();
+			for (var i = 0; i < 5; i++) {
+				cxt.lineTo(Math.cos((18+i*72-rot)/180*Math.PI)*R+x,-Math.sin((18+i*72-rot)/180*Math.PI)*R+y);
+				cxt.lineTo(Math.cos((54+i*72-rot)/180*Math.PI)*r+x,-Math.sin((54+i*72-rot)/180*Math.PI)*r+y);
+			}
+			cxt.closePath();
+			cxt.fillStyle = "#fb3";
+			cxt.strokeStyle = "#fd5";
+			cxt.lineWidth = 3;
+			cxt.lineJoin = "round";
+			cxt.fill();
+			cxt.stroke();
+		}
+		//圆角矩形
+		function drawRoundRect(cxt,x,y,width,height,radius){
+			cxt.save();
+			cxt.translate(x,y);
+			pathRoundRect(cxt,width,height,radius);
+			cxt.strokeStyle = "#fff";
+			cxt.fillStyle = "#fff";
+			cxt.fill();
+			cxt.stroke();
+			cxt.restore();
+		}
+		function pathRoundRect(cxt,width,height,radius){
+			cxt.beginPath();
+			cxt.arc(width-radius,height-radius,radius,0,Math.PI/2);
+			cxt.lineTo(radius,height);
+			cxt.arc(radius,height-radius,radius,Math.PI/2,Math.PI);
+			cxt.lineTo(0,radius);
+			cxt.arc(radius,radius,radius,Math.PI,Math.PI*3/2);
+			cxt.lineTo(width-radius,0);
+			cxt.arc(width-radius,radius,radius,Math.PI*3/2,0);
+			cxt.lineTo(width,height-radius);
+			cxt.closePath();
+		}
+	</script>
+</body>
+</html>
