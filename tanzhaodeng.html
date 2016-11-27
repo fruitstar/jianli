@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>测试</title>
+	<style type="text/css">
+		#canvas-wrapper{
+			width: 1200px;
+			height: 800px;
+			position: relative;
+			margin: 50px auto;
+		}
+		#canvas{
+			border: 1px solid #aaa;
+		}
+		#controller{
+			position: absolute;
+			top: 30px;
+			left: 30px;
+			background-color: rgba(0,85,116,0.7);
+			padding: 5px 20px 25px 20px;
+			border-radius: 10px; 
+		}
+		#controller #canvas-btn{
+			display: inline-block;
+			background-color: #8b0;
+			color: white;
+			
+		}
+	</style>
+</head>
+<body>
+<div id="canvas-wrapper">
+	<canvas id="canvas" width="1024" height="400"></canvas>
+</div>
+<div id="controller">
+	<h1>Canvas 绘图之旅</h1>
+	<a href="#" class="color-btn" id="white-color-btn">&nbsp;</a>
+	<a href="#" class="color-btn" id="black-color-btn">&nbsp;</a>
+</div>
+	<script type="text/javascript">
+		var canvas = document.getElementById('canvas');
+		var context = canvas.getContext('2d');
+		var balls = [];
+		window.onload = function (){
+
+		}
+	</script>
+</body>
+</html>
