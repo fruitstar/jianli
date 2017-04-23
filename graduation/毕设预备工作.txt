@@ -1,0 +1,24 @@
+基于爬虫的数据可视化
+基于爬虫的地图索引及可视化
+
+编辑器：pycharm 环境python2.7
+
+Python2.7.13下载地址https://www.python.org/downloads/
+
+安装BeautifulSoup4：http://www.cnblogs.com/xxoome/p/5870356.html
+
+安装BeautifulSoup4发生unicodeDecodeError错误时：http://blog.sina.com.cn/s/blog_904d6acb0102wzfu.html
+
+高德API+Python解决租房问题：https://www.shiyanlou.com/courses/599
+
+BeautifulSoup4详解：http://cuiqingcai.com/1319.html
+
+urlparse用法：https://my.oschina.net/guol/blog/95699
+
+urlparse.urljoin用法：http://blog.csdn.net/acceptedxukai/article/details/8806204
+
+requests详解：http://blog.csdn.net/shanzhizi/article/details/50903748
+
+python select方法的使用：http://blog.csdn.net/vito21/article/details/53319306
+
+csv详解： http://www.cnblogs.com/nisen/p/6155492.html
