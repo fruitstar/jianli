@@ -49,6 +49,7 @@ while True:
             house_location = house_info_list[1]
 
         house_money = house.select(".money")[0].select("b")[0].string.encode("utf-8")
+        # filter(string.isdigit(),house_money)
         csv_writer.writerow([house_title, house_location, house_money, house_url])
 
 csv_file.close()
