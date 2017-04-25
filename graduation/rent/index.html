@@ -36,6 +36,10 @@
             width: 160px;
         }
 
+        #control-time{
+            margin-top:5px;
+        }
+
         .control-panel label {
             float: left;
             width: 120px;
@@ -64,18 +68,24 @@
                 </div>
             </div>
             <div class="control-entry">
+                <label>选择到达时间：</label>
+                <div class="control-input" id="control-time">
+                    <input type="hidden" id="time" class="single-slider" value="30" />
+                </div>
+            </div>
+            <div class="control-entry">
                 <label>选择通勤方式：</label>
                 <div class="control-input">
                     <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" checked/> 公交+地铁
                     <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" /> 地铁
                 </div>
             </div>
-            <div class="control-entry">
+            <!-- <div class="control-entry">
                 <label>导入房源文件：</label>
                 <div class="control-input">
                     <input type="file" name="file" onChange="importRentInfo(this)" />
                 </div>
-            </div>
+            </div> -->
         </div>
         <div id="transfer-panel"></div>
         <script>
@@ -95,7 +105,7 @@
             //公交到达圈
             var arrivalRange = new AMap.ArrivalRange();
             //经度，纬度，时间，通勤方式
-            var x, y, t, vehicle = "SUBWAY,BUS";
+            var x, y, t, vehicle;
             //工作地点，工作标记
             var workAddress, workMarker;
             //房源标记队列
@@ -116,29 +126,37 @@
             });
             //注册监听，当选中某条记录时会触发
             AMap.event.addListener(auto, "select", workLocationSelected);
-
-
-            function takeBus(radio) {
-                vehicle = radio.value;
-                loadWorkLocation()
-            }
-
-            function takeSubway(radio) {
-                vehicle = radio.value;
-                loadWorkLocation()
-            }
-
-            function importRentInfo(fileInfo) {
-                var file = fileInfo.files[0].name;
-                loadRentLocationByFile(file);
-            }
-
             function workLocationSelected(e) {
                 //更新工作地点，加载公交到达圈
                 workAddress = e.poi.name;
                 loadWorkLocation();
             }
 
+            //加载工作地点
+            function loadWorkLocation() {
+                //删除工作地点
+                delWorkLocation();
+                //正向地理编码
+                var geocoder = new AMap.Geocoder({
+                    city: "北京",
+                    radius: 1000
+                });
+                //地理编码，返回地理编码结果
+                geocoder.getLocation(workAddress, function(status, result) {
+                    if (status === "complete" && result.info === 'OK') {
+                        //获取工作地点的经纬度
+                        var geocode = result.geocodes[0];
+                        x = geocode.location.getLng();
+                        y = geocode.location.getLat();
+                        t = $("#time").val();
+                        loadWorkMarker(x, y);
+                        loadWorkRange(x, y, t, "#3f67a5", vehicle);
+                        map.setZoomAndCenter(12, [x, y]);
+                    }
+                })
+            }
+
+            //工作地址标识
             function loadWorkMarker(x, y, locationName) {
                 workMarker = new AMap.Marker({
                     map: map,
@@ -171,7 +189,23 @@
                 });
             }
 
-            //
+            function takeBus(radio) {
+                vehicle = radio.value;
+                loadWorkLocation();
+            }
+
+            function takeSubway(radio) {
+                vehicle = radio.value;
+                loadWorkLocation();
+            }
+
+             //获取rent.csv
+            // function importRentInfo(fileInfo) {
+            //     var file = fileInfo.files[0].name;
+            //     loadRentLocationByFile(file);
+            // }
+
+            //房源标记
             function addMarkerByAddress(address) {
                 var geocoder = new AMap.Geocoder({
                     city: "北京",
@@ -182,16 +216,16 @@
                         var geocode = result.geocodes[0];
                         rentMarker = new AMap.Marker({
                             map: map,
-                            title: address,
+                            title: address.split(",")[0] + "\n" + "价格:" + address.split(",")[2],
                             icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
                             position: [geocode.location.getLng(), geocode.location.getLat()]
                         });
                         rentMarkerArray.push(rentMarker);
 
-                        rentMarker.content = "<div>房源：<a target = '_blank' href='http://bj.58.com/pinpaigongyu/?key=" + address + "'>" + address + "</a><div>"
-                        //房源标记被点击时打开
+                        rentMarker.content = "<div>点击查看房源：<a target = '_blank' href='" + address.split(",")[3] + "'>" + address.split(",")[0] + "</a><div>";
+                        //房源标记被点击时
                         rentMarker.on('click', function(e) {
-                            //鼠标移到标记上会显示content属性的内容
+                            //标记上会显示content属性的内容
                             infoWindow.setContent(e.target.content);
                             //在标记的位置打开窗体
                             infoWindow.open(map, e.target.getPosition());
@@ -202,16 +236,18 @@
                                 city: "北京市",
                                 panel: 'transfer-panel'
                             });
-                            amapTransfer.search([{
-                                keyword: workAddress
-                            }, {
-                                keyword: address
-                            }], function(status, result) {})
+                            amapTransfer.search([
+                                //起点
+                                {keyword: workAddress},
+                                //终点
+                                {keyword: address}
+                            ])
                         });
                     }
                 })
             }
 
+            //删除工作地点
             function delWorkLocation() {
                 if (polygonArray) map.remove(polygonArray);
                 if (workMarker) map.remove(workMarker);
@@ -223,39 +259,49 @@
                 rentMarkerArray = [];
             }
 
-            function loadWorkLocation() {
-                delWorkLocation();
-                //正向地理编码
-                var geocoder = new AMap.Geocoder({
-                    city: "北京",
-                    radius: 1000
-                });
-                //地理编码，返回地理编码结果
-                geocoder.getLocation(workAddress, function(status, result) {
-                    if (status === "complete" && result.info === 'OK') {
-                        var geocode = result.geocodes[0];
-                        x = geocode.location.getLng();
-                        y = geocode.location.getLat();
-                        loadWorkMarker(x, y);
-                        loadWorkRange(x, y, 60, "#3f67a5", vehicle);
-                        map.setZoomAndCenter(12, [x, y]);
-                    }
-                })
-            }
-
+            //加载rent.csv文件内容
+            loadRentLocationByFile("rent.csv");
             function loadRentLocationByFile(fileName) {
+                //先删除现有的房源标记
                 delRentLocation();
+                //所有的地点都记录在集合中
                 var rent_locations = new Set();
+                //jquery 获得数据
                 $.get(fileName, function(data) {
                     data = data.split("\n");
                     data.forEach(function(item, index) {
-                        rent_locations.add(item.split(",")[1]);
+                        rent_locations.add(item);
                     });
                     rent_locations.forEach(function(element, index) {
+                        //加上房源标记
                         addMarkerByAddress(element);
                     });
                 });
             }
+
+            var isChanged=false;
+            $(function(){
+                $('.single-slider').jRange({
+                    onstatechange: function() {
+                        isChanged=true;
+                    },
+                    from: 1,
+                    to: 60,
+                    step: 1,
+                    scale: [1,15,30,45,60],
+                    format: '%s',
+                    width: 160,
+                    showLabels: true,
+                    showScale: true
+                });
+            });
+            loadWorkLocation();
+            window.setInterval(function(){//防止在移动滑动条时频繁触发请
+                    if(isChanged){
+                       loadWorkLocation();
+                       isChanged=false;
+                   }
+            },1000)
         </script>
     </body>
 </html>
