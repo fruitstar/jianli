@@ -19,7 +19,6 @@
         }
 
         #tip input{
-            width: 120px;
             margin-bottom: 20px;
         }
 
@@ -32,6 +31,16 @@
             left: 20px;
             width: 250px;
         }
+
+        #transfer-panel2 {
+            position: absolute;
+            background-color: white;
+            max-height: 80%;
+            overflow-y: auto;
+            top: 30px;
+            left: 280px;
+            width: 250px;
+        }
         </style>
     </head>
 
@@ -39,17 +48,25 @@
         <!-- 高德地图必须在页面body里你想展示地图的地方创建一个div 容器，并指定id标识 -->
         <div id="container"></div>
         <div id="tip" class="button-group">
-                选择工作地点：
-                <input id="work-location" type="text">
-                <br>
-                选择到达时间：
-                <input type="hidden" id="time" class="single-slider" value="30" />
-                <br>
-                选择通勤方式：
-                <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" checked/> 公交+地铁
-                <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" /> 地铁
+            选择工作地点：
+            <input id="work-location" type="text">
+            <br>
+            基友/闺蜜工作地点：
+            <input id="work-location2" type="text">
+            <br>
+            选择到达时间：
+            <input type="hidden" id="time" class="single-slider" value="30" />
+            <br>
+            选择通勤方式：
+            <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" checked/> 公交+地铁
+            <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" /> 地铁
+            <br>
+            类型：
+            <input type="button" class="button" value="合租" onClick="javascript:loadRentLocationByFile('ziroomwholerent.csv')"/>
+            <input type="button" class="button" value="整租" onClick="javascript:loadRentLocationByFile('ziroompartrent.csv')"/>
         </div>
         <div id="transfer-panel"></div>
+        <div id="transfer-panel2"></div>
         <script>
 
             //设置地图的中心点和级别
@@ -68,12 +85,13 @@
             var arrivalRange = new AMap.ArrivalRange();
             //经度，纬度，时间，通勤方式
             var x, y, t, vehicle;
-            //工作地点，工作标记
-            var workAddress, workMarker;
+            //工作地点，闺蜜工作地点，工作标记
+            var workAddress,workAddress2, workMarker,workMarker2;
             //房源标记队列
             var rentMarkerArray = [];
             //多边形队列，存储公交到达的计算结果
             var polygonArray = [];
+            var polygonArray2 = [];
             //路径规划
             var amapTransfer;
 
@@ -86,12 +104,23 @@
             var auto = new AMap.Autocomplete({
                 input: "work-location"
             });
+            var auto2 = new AMap.Autocomplete({
+                input: "work-location2"
+            });
+
             //注册监听，当选中某条记录时会触发
             AMap.event.addListener(auto, "select", workLocationSelected);
+            AMap.event.addListener(auto2, "select", workLocationSelected2);
+
             function workLocationSelected(e) {
                 //更新工作地点，加载公交到达圈
                 workAddress = e.poi.name;
                 loadWorkLocation();
+            }
+            function workLocationSelected2(e) {
+                //更新工作地点，加载公交到达圈
+                workAddress2 = e.poi.name;
+                loadWorkLocation2();
             }
 
             //加载工作地点
@@ -113,6 +142,28 @@
                         t = $("#time").val();
                         loadWorkMarker(x, y);
                         loadWorkRange(x, y, t, "#3f67a5", vehicle);
+                        map.setZoomAndCenter(12, [x, y]);
+                    }
+                })
+            }
+            function loadWorkLocation2() {
+                //删除工作地点
+                delWorkLocation2();
+                //正向地理编码
+                var geocoder = new AMap.Geocoder({
+                    city: "北京",
+                    radius: 1000
+                });
+                //地理编码，返回地理编码结果
+                geocoder.getLocation(workAddress2, function(status, result) {
+                    if (status === "complete" && result.info === 'OK') {
+                        //获取工作地点的经纬度
+                        var geocode = result.geocodes[0];
+                        x = geocode.location.getLng();
+                        y = geocode.location.getLat();
+                        t = $("#time").val();
+                        loadWorkMarker(x, y);
+                        loadWorkRange(x, y, t, "#FA8072", vehicle);
                         map.setZoomAndCenter(12, [x, y]);
                     }
                 })
@@ -161,37 +212,37 @@
                 loadWorkLocation();
             }
 
-             //获取rent.csv
-            // function importRentInfo(fileInfo) {
-            //     var file = fileInfo.files[0].name;
-            //     loadRentLocationByFile(file);
-            // }
-
             //房源标记
             function addMarkerByAddress(address) {
                 var geocoder = new AMap.Geocoder({
                     city: "北京",
                     radius: 1000
                 });
-                geocoder.getLocation(address, function(status, result) {
+                geocoder.getLocation(address.split(",")[0], function(status, result) {
                     if (status === "complete" && result.info === 'OK') {
+
                         var geocode = result.geocodes[0];
+                        var address_1 = address.split(",")[0].split("-")[0];
+
                         rentMarker = new AMap.Marker({
                             map: map,
-                            title: address.split(",")[0] + "\n" + "价格:" + address.split(",")[2],
+                            title: address.split(",")[0] + "\n" + "地铁路线:" + address.split(",")[2] + "\n" + "价格:" + address.split(",")[3],
                             icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
                             position: [geocode.location.getLng(), geocode.location.getLat()]
                         });
                         rentMarkerArray.push(rentMarker);
 
-                        rentMarker.content = "<div>点击查看房源：<a target = '_blank' href='" + address.split(",")[3] + "'>" + address.split(",")[0] + "</a><div>";
+                        rentMarker.content = "<div>点击查看房源：<a target = '_blank' href='" + address.split(",")[1] + "'>" + address.split(",")[0] + "," + address.split(",")[3] + "</a><div>";
                         //房源标记被点击时
                         rentMarker.on('click', function(e) {
                             //标记上会显示content属性的内容
                             infoWindow.setContent(e.target.content);
                             //在标记的位置打开窗体
                             infoWindow.open(map, e.target.getPosition());
-                            if (amapTransfer) amapTransfer.clear();
+                            if (amapTransfer && amapTransfer2) {
+                                amapTransfer.clear();
+                                amapTransfer2.clear();
+                            }
                             amapTransfer = new AMap.Transfer({
                                 map: map,
                                 policy: AMap.TransferPolicy.LEAST_TIME,
@@ -202,7 +253,19 @@
                                 //起点
                                 {keyword: workAddress},
                                 //终点
-                                {keyword: address}
+                                {keyword: address_1.substring(0,address_1.length-3)}
+                            ])
+                            amapTransfer2 = new AMap.Transfer({
+                                map: map,
+                                policy: AMap.TransferPolicy.LEAST_TIME,
+                                city: "北京市",
+                                panel: 'transfer-panel2'
+                            });
+                            amapTransfer2.search([
+                                //起点
+                                {keyword: workAddress2},
+                                //终点
+                                {keyword: address_1.substring(0,address_1.length-3)}
                             ])
                         });
                     }
@@ -215,6 +278,11 @@
                 if (workMarker) map.remove(workMarker);
                 polygonArray = [];
             }
+            function delWorkLocation2() {
+                if (polygonArray2) map.remove(polygonArray2);
+                if (workMarker2) map.remove(workMarker2);
+                polygonArray2 = [];
+            }
 
             function delRentLocation() {
                 if (rentMarkerArray) map.remove(rentMarkerArray);
@@ -222,7 +290,6 @@
             }
 
             //加载rent.csv文件内容
-            loadRentLocationByFile("rent.csv");
             function loadRentLocationByFile(fileName) {
                 //先删除现有的房源标记
                 delRentLocation();
