@@ -62,8 +62,8 @@
             <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" /> 地铁
             <br>
             类型：
-            <input type="button" class="button" value="合租" onClick="javascript:loadRentLocationByFile('ziroomwholerent.csv')"/>
-            <input type="button" class="button" value="整租" onClick="javascript:loadRentLocationByFile('ziroompartrent.csv')"/>
+            <input type="button" class="button" value="合租" onClick="javascript:loadRentLocationByFile('ziroompartrent.csv')"/>
+            <input type="button" class="button" value="整租" onClick="javascript:loadRentLocationByFile('ziroomwholerent.csv')"/>
         </div>
         <div id="transfer-panel"></div>
         <div id="transfer-panel2"></div>
@@ -94,6 +94,7 @@
             var polygonArray2 = [];
             //路径规划
             var amapTransfer;
+            var amapTransfer2;
 
             //显示信息窗体
             var infoWindow = new AMap.InfoWindow({
@@ -104,6 +105,7 @@
             var auto = new AMap.Autocomplete({
                 input: "work-location"
             });
+            
             var auto2 = new AMap.Autocomplete({
                 input: "work-location2"
             });
@@ -145,6 +147,7 @@
                         map.setZoomAndCenter(12, [x, y]);
                     }
                 })
+                console.log("我的工作地址：" + workAddress)
             }
             function loadWorkLocation2() {
                 //删除工作地点
@@ -162,11 +165,12 @@
                         x = geocode.location.getLng();
                         y = geocode.location.getLat();
                         t = $("#time").val();
-                        loadWorkMarker(x, y);
-                        loadWorkRange(x, y, t, "#FA8072", vehicle);
+                        loadWorkMarker2(x, y);
+                        loadWorkRange2(x, y, t, "#FA8072", vehicle);
                         map.setZoomAndCenter(12, [x, y]);
                     }
                 })
+                console.log("闺蜜工作地址：" + workAddress2)
             }
 
             //工作地址标识
@@ -176,7 +180,14 @@
                     title: locationName,
                     icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',
                     position: [x, y]
-
+                });
+            }
+            function loadWorkMarker2(x, y, locationName) {
+                workMarker2 = new AMap.Marker({
+                    map: map,
+                    title: locationName,
+                    icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',
+                    position: [x, y]
                 });
             }
 
@@ -196,6 +207,28 @@
                             polygon.setPath(result.bounds[i]);
                             polygonArray.push(polygon);
                         }
+                        map.setFitView();
+                    }
+                }, {
+                    policy: v
+                });
+            }
+            function loadWorkRange2(x, y, t, color, v) {
+                arrivalRange.search([x, y], t, function(status, result) {
+                    if (result.bounds) {
+                        for (var i = 0; i < result.bounds.length; i++) {
+                            var polygon = new AMap.Polygon({
+                                map: map,
+                                fillColor: color,
+                                fillOpacity: "0.4",
+                                strokeColor: color,
+                                strokeOpacity: "0.8",
+                                strokeWeight: 1
+                            });
+                            polygon.setPath(result.bounds[i]);
+                            polygonArray2.push(polygon);
+                        }
+                        map.setFitView();
                     }
                 }, {
                     policy: v
@@ -239,34 +272,45 @@
                             infoWindow.setContent(e.target.content);
                             //在标记的位置打开窗体
                             infoWindow.open(map, e.target.getPosition());
-                            if (amapTransfer && amapTransfer2) {
-                                amapTransfer.clear();
-                                amapTransfer2.clear();
+                            if(workAddress != null){
+                                if (amapTransfer) {
+                                    amapTransfer.clear();
+                                }
+                                amapTransfer = new AMap.Transfer({
+                                    map: map,
+                                    policy: AMap.TransferPolicy.LEAST_TIME,
+                                    city: "北京市",
+                                    panel: 'transfer-panel'
+                                });
+                                amapTransfer.search([
+                                    //起点
+                                    {keyword: workAddress},
+                                    //终点
+                                    {keyword: address_1.substring(0,address_1.length-3)}
+                                ])
                             }
-                            amapTransfer = new AMap.Transfer({
-                                map: map,
-                                policy: AMap.TransferPolicy.LEAST_TIME,
-                                city: "北京市",
-                                panel: 'transfer-panel'
-                            });
-                            amapTransfer.search([
-                                //起点
-                                {keyword: workAddress},
-                                //终点
-                                {keyword: address_1.substring(0,address_1.length-3)}
-                            ])
-                            amapTransfer2 = new AMap.Transfer({
-                                map: map,
-                                policy: AMap.TransferPolicy.LEAST_TIME,
-                                city: "北京市",
-                                panel: 'transfer-panel2'
-                            });
-                            amapTransfer2.search([
-                                //起点
-                                {keyword: workAddress2},
-                                //终点
-                                {keyword: address_1.substring(0,address_1.length-3)}
-                            ])
+                            if(workAddress2 != null){
+                                if (amapTransfer2) {
+                                    amapTransfer2.clear();
+                                }
+                                if(workAddress == null){
+                                    $("#transfer-panel2").css("left","20px");
+                                }else{
+                                    $("#transfer-panel2").css("left","280px");
+                                }
+                                amapTransfer2 = new AMap.Transfer({
+                                    map: map,
+                                    policy: AMap.TransferPolicy.LEAST_TIME,
+                                    city: "北京市",
+                                    panel: 'transfer-panel2'
+                                });
+                                amapTransfer2.search([
+                                    //起点
+                                    {keyword: workAddress2},
+                                    //终点
+                                    {keyword: address_1.substring(0,address_1.length-3)}
+                                ])
+                            }
                         });
                     }
                 })
@@ -284,6 +328,7 @@
                 polygonArray2 = [];
             }
 
+            //删除房源位置信息
             function delRentLocation() {
                 if (rentMarkerArray) map.remove(rentMarkerArray);
                 rentMarkerArray = [];
@@ -325,9 +370,11 @@
                 });
             });
             loadWorkLocation();
+            loadWorkLocation2();
             window.setInterval(function(){//防止在移动滑动条时频繁触发请
                     if(isChanged){
                        loadWorkLocation();
+                       loadWorkLocation2();
                        isChanged=false;
                    }
             },1000)
