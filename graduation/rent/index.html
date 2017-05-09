@@ -11,11 +11,25 @@
         <script src="http://webapi.amap.com/maps?v=1.3&key=1978fb10a39b40ce49c1755322c546f9&plugin=AMap.ArrivalRange,AMap.Scale,AMap.Geocoder,AMap.Transfer,AMap.Autocomplete,AMap.Riding"></script>
         <script src="http://cache.amap.com/lbs/static/jquery.range.js"></script>
         <style>
+        body{
+            font-family: fantasy, sans-serif;
+            text-align: left;
+        }
+
+        .control-entry {
+            overflow: auto;
+            margin-bottom: -30px;
+        }
+
+        .control-input{
+            margin-top: -25px;
+            margin-left: 150px;
+        }
 
         #tip{
             top:auto;
             bottom: 25px;
-            background-color: rgba(119, 136, 153, 0.8);
+            background-color: rgba(119, 136, 153, 0.5);
         }
 
         #tip input{
@@ -48,22 +62,37 @@
         <!-- 高德地图必须在页面body里你想展示地图的地方创建一个div 容器，并指定id标识 -->
         <div id="container"></div>
         <div id="tip" class="button-group">
-            选择工作地点：
-            <input id="work-location" type="text">
+            <div class="control-entry">
+                我的工作地点：
+                <div class="control-input">
+                    <input id="work-location" type="text">
+                </div>
+            </div>
             <br>
-            基友/闺蜜工作地点：
-            <input id="work-location2" type="text">
+            <div class="control-entry">
+                基友工作地点：
+                <div class="control-input">
+                    <input id="work-location2" type="text">
+                </div>
+            </div>
             <br>
-            选择到达时间：
-            <input type="hidden" id="time" class="single-slider" value="30" />
+            交通方式：
+            <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" checked /> 公交+地铁
+            <input type="radio" name="vehicle" value="SUBWAY" onClick="takeRiding(this)" /> 骑行
             <br>
-            选择通勤方式：
-            <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" checked/> 公交+地铁
-            <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" /> 骑行
+            工作到达圈：
+            <input type="button" class="button" value="加载工作圈" onClick="javascript:loadCircle()"/>
+            <input type="button" class="button" value="关闭工作圈" onClick="javascript:delCircle()"/>
+            <br>
+            工作可到达圈(单位/km)：
+            <input type="hidden" id="radius" class="single-slider" value="10" />
             <br>
             类型：
             <input type="button" class="button" value="自如合租" onClick="javascript:loadRentLocationByFile('ziroompartrent.csv')"/>
             <input type="button" class="button" value="自如整租" onClick="javascript:loadRentLocationByFile('ziroomwholerent.csv')"/>
+            <br>
+            数据分析：
+            <input type="button" class="button" value="价格分析" onClick="javascript:priceAnalysis()"/>
         </div>
         <div id="transfer-panel"></div>
         <div id="transfer-panel2"></div>
@@ -83,8 +112,8 @@
 
             //公交到达圈
             var arrivalRange = new AMap.ArrivalRange();
-            //经度，纬度，时间，通勤方式
-            var x, y, t, vehicle="SUBWAY,BUS";
+            //经度，纬度，半径，通勤方式
+            var x1, x2, y1, y2, r, vehicle="SUBWAY,BUS";
             //工作地点，闺蜜工作地点，工作标记
             var workAddress,workAddress2, workMarker,workMarker2;
             //房源标记队列
@@ -92,12 +121,23 @@
             //多边形队列，存储公交到达的计算结果
             var polygonArray = [];
             var polygonArray2 = [];
+            //工作圈
+            var circle;
+            var circle2;
             //路径规划
             var amapTransfer;
             var amapTransfer2;
             //骑行路线规划
             var riding;
             var riding2;
+            //各价位总数
+            var sum0 = 0;
+            var sum1 = 0;
+            var sum2 = 0;
+            var sum3 = 0;
+            var sum4 = 0;
+            var sum5 = 0;
+            var sum6 = 0;
 
             //显示信息窗体
             var infoWindow = new AMap.InfoWindow({
@@ -130,18 +170,10 @@
 
             function takeBus(radio) {
                 vehicle = radio.value;
-                if(workAddress != null){
-                    loadWorkLocation();
-                }
-                if(workAddress2 != null){
-                    loadWorkLocation2();
-                }
             }
 
-            function takeSubway(radio) {
-                console.log(workAddress)
+            function takeRiding(radio) {
                 vehicle = radio.value;
-                loadWorkLocation();
             }
 
             //加载工作地点
@@ -158,16 +190,17 @@
                     if (status === "complete" && result.info === 'OK') {
                         //获取工作地点的经纬度
                         var geocode = result.geocodes[0];
-                        x = geocode.location.getLng();
-                        y = geocode.location.getLat();
-                        t = $("#time").val();
-                        loadWorkMarker(x, y);
-                        loadWorkRange(x, y, t, "#3f67a5", vehicle);
-                        map.setZoomAndCenter(12, [x, y]);
+                        x1 = geocode.location.getLng();
+                        y1 = geocode.location.getLat();
+                        loadWorkMarker(x1, y1);
+                        // loadWorkRangeCircle(x1, y1, "#3f67a5");
+                        // loadWorkRange(x1, y1, t, "#3f67a5", vehicle);
+                        // map.setZoomAndCenter(12, [x1, y1]);
                     }
                 })
                 console.log("我的工作地址：" + workAddress)
             }
+
             function loadWorkLocation2() {
                 //删除工作地点
                 delWorkLocation2();
@@ -181,12 +214,11 @@
                     if (status === "complete" && result.info === 'OK') {
                         //获取工作地点的经纬度
                         var geocode = result.geocodes[0];
-                        x = geocode.location.getLng();
-                        y = geocode.location.getLat();
-                        t = $("#time").val();
-                        loadWorkMarker2(x, y);
-                        loadWorkRange2(x, y, t, "#FA8072", vehicle);
-                        map.setZoomAndCenter(12, [x, y]);
+                        x2 = geocode.location.getLng();
+                        y2 = geocode.location.getLat();
+                        loadWorkMarker2(x2, y2);
+                        // loadWorkRange2(x2, y2, t, "#FA8072", vehicle);
+                        // map.setZoomAndCenter(12, [x2, y2]);
                     }
                 })
                 console.log("闺蜜工作地址：" + workAddress2)
@@ -210,7 +242,55 @@
                 });
             }
 
-            //加载工作地点公交到达圈
+            //到达圈
+            function loadWorkRangeCircle(x,y,r,color){
+                if(workAddress != null){
+                    circle = new AMap.Circle({
+                        center: new AMap.LngLat(x, y),// 圆心位置
+                        radius: r * 1000, //半径10km
+                        strokeColor: color, //线颜色
+                        strokeOpacity: 1, //线透明度
+                        strokeWeight: 1, //线粗细度
+                        fillColor: color, //填充颜色
+                        fillOpacity: 0.35//填充透明度
+                    });
+                    circle.setMap(map);
+                }
+            }
+            function loadWorkRangeCircle2(x,y,r,color){
+                if(workAddress2 != null){
+                    circle2 = new AMap.Circle({
+                        center: new AMap.LngLat(x, y),// 圆心位置
+                        radius: r * 1000, //半径km
+                        strokeColor: color, //线颜色
+                        strokeOpacity: 1, //线透明度
+                        strokeWeight: 1, //线粗细度
+                        fillColor: color, //填充颜色
+                        fillOpacity: 0.35//填充透明度
+                    });
+                    circle2.setMap(map);
+                }
+            }
+            
+            //加载工作到达圈
+            function loadCircle(){
+                delCircle();
+                r = $("#radius").val();
+                if(workAddress != null){
+                    loadWorkRangeCircle(x1, y1, r, "#3f67a5");
+                }
+                if(workAddress2 != null){
+                    loadWorkRangeCircle2(x2, y2, r, "#FA8072");
+                }
+            }
+
+            //关闭工作到达圈
+            function delCircle(){
+                if(circle) map.remove(circle);
+                if(circle2) map.remove(circle2);
+            }
+
+            //无用-加载工作地点公交到达圈
             function loadWorkRange(x, y, t, color, v) {
                 arrivalRange.search([x, y], t, function(status, result) {
                     if (result.bounds) {
@@ -253,7 +333,7 @@
                     policy: v
                 });
             }
-
+            
             //房源标记
             function addMarkerByAddress(address) {
                 var geocoder = new AMap.Geocoder({
@@ -262,27 +342,52 @@
                 });
                 geocoder.getLocation(address.split(",")[0], function(status, result) {
                     if (status === "complete" && result.info === 'OK') {
-
+                        
+                        var price = Number(address.split(",")[3]);
                         var geocode = result.geocodes[0];
                         var address_1 = address.split(",")[0].split("-")[0];
+                        var iconImg;
+                        if(price >= 6000){
+                            sum6 = sum6 + 1;
+                            iconImg = 'pin_07.png';
+                        }else if(price >= 5000){
+                            sum5 = sum5 + 1;
+                            iconImg = 'pin_06.png';
+                        }else if(price >= 4000){
+                            sum4 = sum4 + 1;
+                            iconImg = 'pin_05.png';
+                        }else if(price >= 3000){
+                            sum3 = sum3 + 1;
+                            iconImg = 'pin_01.png';
+                        }else if(price >= 2000){
+                            sum2 = sum2 + 1;
+                            iconImg = 'pin_02.png';
+                        }else if(price >= 1000){
+                            sum1 = sum1 + 1;
+                            iconImg = 'pin_03.png';
+                        }else{
+                            sum0 = sum0 + 1;
+                            iconImg = 'pin_04.png';
+                        }
 
                         rentMarker = new AMap.Marker({
                             map: map,
                             title: address.split(",")[0] + "\n" + "地铁路线:" + address.split(",")[2] + "\n" + "价格:" + address.split(",")[3],
-                            icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
+                            icon: iconImg,
                             position: [geocode.location.getLng(), geocode.location.getLat()]
                         });
+                        
                         rentMarkerArray.push(rentMarker);
 
                         rentMarker.content = "<div>点击查看房源：<a target = '_blank' href='" + address.split(",")[1] + "'>" + address.split(",")[0] + "," + address.split(",")[3] + "</a><div>";
                         //房源标记被点击时
                         rentMarker.on('click', function(e) {
+                            console.log(e)
                             //标记上会显示content属性的内容
                             infoWindow.setContent(e.target.content);
                             //在标记的位置打开窗体
                             infoWindow.open(map, e.target.getPosition());
                             if(vehicle == "SUBWAY"){
-                                console.log(address_1.substring(0,address_1.length-3))
                                 if(workAddress != null){
                                     if (riding) {
                                         riding.clear();
@@ -294,10 +399,11 @@
                                         map: map,
                                         panel: "transfer-panel"
                                     }); 
-                                    riding.search([
-                                        {keyword: workAddress,city:'北京'},
-                                        {keyword: address_1.substring(0,address_1.length-3),city:'北京'}
-                                    ]);
+                                    riding.search(
+                                        [x1, y1], [e.target.G.position.lng, e.target.G.position.lat]
+                                        // {keyword: workAddress,city:'北京'},
+                                        // {keyword: address_1.substring(0,address_1.length-3),city:'北京'}
+                                    );
                                 }
                                 if(workAddress2 != null){
                                     if (riding2) {
@@ -315,10 +421,11 @@
                                         map: map,
                                         panel: "transfer-panel2"
                                     }); 
-                                    riding2.search([
-                                        {keyword: workAddress2,city:'北京'},
-                                        {keyword: address_1.substring(0,address_1.length-3),city:'北京'}
-                                    ]);
+                                    riding2.search(
+                                        [x2, y2], [e.target.G.position.lng, e.target.G.position.lat]
+                                        // {keyword: workAddress2,city:'北京'},
+                                        // {keyword: address_1.substring(0,address_1.length-3),city:'北京'}
+                                    );
                                 }
                             }else{
                                 if(workAddress != null){
@@ -334,12 +441,13 @@
                                         city: "北京市",
                                         panel: 'transfer-panel'
                                     });
-                                    amapTransfer.search([
-                                        //起点
-                                        {keyword: workAddress},
-                                        //终点
-                                        {keyword: address_1.substring(0,address_1.length-3)}
-                                    ])
+                                    amapTransfer.search(
+                                        new AMap.LngLat(x1, y1), new AMap.LngLat(e.target.G.position.lng, e.target.G.position.lat)
+                                        // //起点
+                                        // {keyword: workAddress},
+                                        // //终点
+                                        // {keyword: address_1.substring(0,address_1.length-3)}
+                                    );
                                 }
                                 if(workAddress2 != null){
                                     if (riding2) {
@@ -359,29 +467,19 @@
                                         city: "北京市",
                                         panel: 'transfer-panel2'
                                     });
-                                    amapTransfer2.search([
-                                        //起点
-                                        {keyword: workAddress2},
-                                        //终点
-                                        {keyword: address_1.substring(0,address_1.length-3)}
-                                    ])
+                                    amapTransfer2.search(
+                                        new AMap.LngLat(x2, y2), new AMap.LngLat(e.target.G.position.lng, e.target.G.position.lat)
+                                        // //起点
+                                        // {keyword: workAddress2},
+                                        // //终点
+                                        // {keyword: address_1.substring(0,address_1.length-3)}
+                                    )
                                 }
                             }
+                            map.setZoomAndCenter(12, [e.lnglat.lng, e.lnglat.lat]);
                         });
                     }
-                })
-            }
-
-            //骑行路线规划
-            function takeRiding(){
-                var riding = new AMap.Riding({
-                    map: map,
-                    panel: "transfer-panel"
-                }); 
-                riding.search([
-                    {keyword: '临泓路６号院',city:'北京'},
-                    {keyword: '龙潭公园',city:'北京'}
-                ]);
+                });
             }
 
             //删除工作地点
@@ -421,30 +519,33 @@
                 });
             }
 
+            //数据分析按钮
+            function priceAnalysis(){
+                console.log(sum0,sum1,sum2,sum3,sum4,sum5,sum6);
+            }
+
             var isChanged=false;
             $(function(){
                 $('.single-slider').jRange({
                     onstatechange: function() {
                         isChanged=true;
                     },
-                    from: 1,
-                    to: 60,
+                    from: 0,
+                    to: 20,
                     step: 1,
-                    scale: [1,15,30,45,60],
+                    scale: [0,5,10,15,20],
                     format: '%s',
                     width: 400,
                     showLabels: true,
                     showScale: true
                 });
             });
-            loadWorkLocation();
-            loadWorkLocation2();
+            loadCircle();
             window.setInterval(function(){//防止在移动滑动条时频繁触发请
-                    if(isChanged){
-                       loadWorkLocation();
-                       loadWorkLocation2();
-                       isChanged=false;
-                   }
+                if(isChanged){
+                   loadCircle();
+                   isChanged=false;
+               }
             },1000)
         </script>
     </body>
