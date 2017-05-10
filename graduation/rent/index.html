@@ -6,10 +6,13 @@
         <title>神奇的地图</title>
         <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
         <link rel="stylesheet" href="http://cache.amap.com/lbs/static/jquery.range.css" />
+        <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
         <script src="http://cache.amap.com/lbs/static/jquery-1.9.1.js"></script>
         <script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
         <script src="http://webapi.amap.com/maps?v=1.3&key=1978fb10a39b40ce49c1755322c546f9&plugin=AMap.ArrivalRange,AMap.Scale,AMap.Geocoder,AMap.Transfer,AMap.Autocomplete,AMap.Riding"></script>
         <script src="http://cache.amap.com/lbs/static/jquery.range.js"></script>
+        <script src="echarts.js"></script>
+        <script src="bootstrap.min.js"></script>
         <style>
         body{
             font-family: fantasy, sans-serif;
@@ -55,6 +58,12 @@
             left: 280px;
             width: 250px;
         }
+
+        .main{
+            position: absolute;
+            top: 30px;
+            right: 200px;
+        }
         </style>
     </head>
 
@@ -92,10 +101,38 @@
             <input type="button" class="button" value="自如整租" onClick="javascript:loadRentLocationByFile('ziroomwholerent.csv')"/>
             <br>
             数据分析：
-            <input type="button" class="button" value="价格分析" onClick="javascript:priceAnalysis()"/>
+            <!-- <input type="button" class="button" value="价格分析" onClick="javascript:priceAnalysis()"/>
+            <input type="button" class="button" value="关闭分析" onClick="javascript:delChart()"/> -->
+            <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onClick="javascript:priceAnalysis()">价格分析</button>
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                模态框（Modal）标题
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="main" style="width: 600px;height:400px;"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                            <button type="button" class="btn btn-primary">
+                                提交更改
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
         </div>
         <div id="transfer-panel"></div>
         <div id="transfer-panel2"></div>
+        
         <script>
 
             //设置地图的中心点和级别
@@ -503,6 +540,16 @@
             //加载rent.csv文件内容
             function loadRentLocationByFile(fileName) {
                 //先删除现有的房源标记
+                if(sum0+sum1+sum2+sum3+sum4+sum5+sum6 != 0){
+                    sum0=0;
+                    sum1=0;
+                    sum2=0;
+                    sum3=0;
+                    sum4=0;
+                    sum5=0;
+                    sum6=0;
+                }
+                delChart();
                 delRentLocation();
                 //所有的地点都记录在集合中
                 var rent_locations = new Set();
@@ -517,11 +564,6 @@
                         addMarkerByAddress(element);
                     });
                 });
-            }
-
-            //数据分析按钮
-            function priceAnalysis(){
-                console.log(sum0,sum1,sum2,sum3,sum4,sum5,sum6);
             }
 
             var isChanged=false;
@@ -547,6 +589,51 @@
                    isChanged=false;
                }
             },1000)
+
+            //数据分析按钮
+            function priceAnalysis(){
+                console.log(sum0,sum1,sum2,sum3,sum4,sum5,sum6);
+                loadChart();
+            }
+
+            var myChart;
+            function loadChart(){
+                if(sum0+sum1+sum2+sum3+sum4+sum5+sum6 == 0){
+                    alert("请选择房源类型");
+                    $('#myModal').model('hide');
+                }else{
+                    myChart = echarts.init(document.getElementById('main'));
+                    // 指定图表的配置项和数据
+                    var option = {
+                        title: {
+                            text: '房源价格区间分析'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data:['数量']
+                        },
+                        xAxis: {
+                            data: ["1k以下","1k~2k","2k~3k","3k~4k","4k~5k","5k~6k","6k+"]
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: '数量',
+                            type: 'bar',
+                            data: [sum0, sum1, sum2, sum3, sum4, sum5, sum6]
+                        }]
+                    };
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                }
+            }
+
+            function delChart(){
+                if(myChart) {
+                    myChart.clear();
+                }
+            }
+            
         </script>
     </body>
 </html>
